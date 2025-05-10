@@ -25,7 +25,7 @@ public class EjercicioPropuesto2 {
             }
         }
 
-        System.out.println("Números primos hasta " + limite + ":");
+        System.out.println("Números primos hasta     " + limite + ":");
         for (int i = 2; i <= limite; i++) {
             if (esPrimo[i]) {
                 System.out.print(i + " ");
