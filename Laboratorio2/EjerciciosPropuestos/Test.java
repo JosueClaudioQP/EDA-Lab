@@ -23,5 +23,9 @@ public class Test {
         System.out.println("Ejercicio4:");
         Propuesto4 tri2 = new Propuesto4();
         tri2.trianguloRecursivo2(base);
+
+        System.out.println("Ejercicio5:");
+        Propuesto5 tri3 = new Propuesto5();
+        tri3.trianguloRecursivo3(base);
     }
 }
