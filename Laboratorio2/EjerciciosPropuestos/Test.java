@@ -16,8 +16,12 @@ public class Test {
         i.imprimir(result);
 
         System.out.println("Ejercicio3:");
-        Propuesto3 tri = new Propuesto3();
         int base = 5;
+        Propuesto3 tri = new Propuesto3();
         tri.trianguloRecursivo1(base);
+
+        System.out.println("Ejercicio4:");
+        Propuesto4 tri2 = new Propuesto4();
+        tri2.trianguloRecursivo2(base);
     }
 }
