@@ -10,5 +10,9 @@ public class Test {
         arbolBST.insert(3);
         arbolBST.insert(4);
         arbolBST.insert(3);
+
+        arbolBST.destroy();
+
+        arbolBST.insert(3);
     }
 }
