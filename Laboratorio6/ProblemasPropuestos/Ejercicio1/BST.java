@@ -47,6 +47,7 @@ public class BST<T extends Comparable<T>> {
         nodo.rigth = null;
         nodo.left = null;
         nodo.data = null;
+        
     }
     
     /*
