@@ -93,13 +93,31 @@ public class BST<T extends Comparable<T>> {
         }
     }
 
+    public T search(T x){
+        Nodo<T> res = searchNode(x, root);
+        if(res == null){
+            System.out.println("No se encuentra el dato");
+            return null;
+        } else {
+            System.out.println("Dato encontrado");
+            return res.data;
+        }
+    }
+
+    public Nodo<T> searchNode(T x, Nodo<T> actual){
+        if(actual == null) return null;
+        else {
+            int resC = actual.data.compareTo(x);
+        if(resC < 0) return searchNode(x, actual.right);
+        else if(resC > 0) return searchNode(x, actual.left);
+        else return actual;
+        }
+    }
     /*
-    public T search(T x){}
     public void Min(){}
     public void Max(){}
     public void Predecesor(){}
     public void Sucesor(){}
-    
     public void PostOrder(){}
     public void PreOrder(){}
     */
