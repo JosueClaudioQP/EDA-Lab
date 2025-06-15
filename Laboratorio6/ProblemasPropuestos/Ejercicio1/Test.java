@@ -15,12 +15,15 @@ public class Test {
         arbol.insert(60);
         arbol.insert(80);
 
+        System.out.println(arbol.isEmpty());
+
         int opcion;
         do {
             System.out.println("\n--- MENU BST ---");
             System.out.println("1. Mostrar Árbol (Inorden)");
             System.out.println("2. Eliminar un nodo");
-            System.out.println("3. Salir");
+            System.out.println("3. Encontrar un nodo");
+            System.out.println("4. Salir");
             System.out.print("Elige una opción: ");
             opcion = sc.nextInt();
 
@@ -37,12 +40,17 @@ public class Test {
                     System.out.println("Nodo eliminado (si existía).");
                     break;
                 case 3:
+                    System.out.println("Ingresar el valor a buscar: ");
+                    int valorIng = sc.nextInt();
+                    arbol.search(valorIng);
+                    break;
+                case 4:
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción inválida.");
             }
-        } while (opcion != 3);
+        } while (opcion != 4);
 
         sc.close();
     }
