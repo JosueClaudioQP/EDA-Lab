@@ -92,6 +92,31 @@ public class BST<T extends Comparable<T>> {
             InOrderRec(nodo.right);
         }
     }
+    
+    public void PostOrder(){
+        PostOrderRec(root);
+    }
+
+    public void PostOrderRec(Nodo<T> nodo){
+        if(nodo != null){
+            PostOrderRec(nodo.left);
+            PostOrderRec(nodo.right);
+            System.out.println(nodo.data + " ");
+
+        }
+    }
+
+    public void PreOrder(){
+        PreOrderRec(root);
+    }
+
+    public void PreOrderRec(Nodo<T> nodo){
+        if(nodo != null){
+            System.out.println(nodo.data + " ");
+            PreOrderRec(nodo.left);
+            PreOrderRec(nodo.right);
+        }
+    }
 
     public T search(T x){
         Nodo<T> res = searchNode(x, root);
@@ -113,13 +138,12 @@ public class BST<T extends Comparable<T>> {
         else return actual;
         }
     }
+    
     /*
     public void Min(){}
     public void Max(){}
     public void Predecesor(){}
     public void Sucesor(){}
-    public void PostOrder(){}
-    public void PreOrder(){}
     */
 }
 
