@@ -3,11 +3,11 @@ package ProblemasPropuestos.Ejercicio1;
 public class Nodo<T> {
     public T data;
     public Nodo<T> left;
-    public Nodo<T> rigth;
+    public Nodo<T> right;
 
-    public Nodo(T data, Nodo<T> left, Nodo<T> rigth){
+    public Nodo(T data, Nodo<T> left, Nodo<T> right){
         this.left = left;
-        this.rigth = rigth;
+        this.right = right;
         this.data = data;
     }
 

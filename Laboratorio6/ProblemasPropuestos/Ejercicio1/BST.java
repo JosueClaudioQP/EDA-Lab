@@ -24,7 +24,7 @@ public class BST<T extends Comparable<T>> {
                 return actual;
             }
             if (resC < 0){
-                nodo.rigth = insertNode(x, actual.rigth);
+                nodo.right = insertNode(x, actual.right);
             } else {
                 nodo.left = insertNode(x, actual.left);
             } 
@@ -41,24 +41,65 @@ public class BST<T extends Comparable<T>> {
     protected void destroyTree(Nodo<T> nodo){
         if(nodo == null) return;
 
-        destroyTree(nodo.rigth);
+        destroyTree(nodo.right);
         destroyTree(nodo.left);
 
-        nodo.rigth = null;
+        nodo.right = null;
         nodo.left = null;
         nodo.data = null;
-        
+
+    }
+
+    public boolean isEmpty(){
+        return root != null;
+    }
+
+    public void remove(T x){
+        this.root = removeNode(x, root);
+    }
+
+    public Nodo<T> removeNode(T x, Nodo<T> actual){
+        Nodo<T> nodo = actual;
+        if(actual == null){System.out.println(x + " no se encuentra");}
+        int resC = actual.data.compareTo(x);
+        if(resC < 0) nodo.right = removeNode(x, actual.right);
+        else if(resC > 0) nodo.left = removeNode(x, actual.left);
+            else if (actual.left != null && actual.right != null) {
+                Nodo<T> successor = minRecover(nodo.right);
+                nodo.data = successor.data;
+                nodo.right = removeNode(successor.data, nodo.right);
+            } else {
+                nodo = (actual.left != null) ? actual.left : actual.right;
+            }
+        return nodo;
+    }
+
+    public Nodo<T> minRecover(Nodo<T> dato){
+        while (dato.left != null) {
+            dato = dato.left;
+        }
+        return dato;
+    }
+
+    public void InOrder(){
+        InOrderRec(root);
     }
     
+    public void InOrderRec(Nodo<T> nodo){
+        if(nodo != null){
+            InOrderRec(nodo.left);
+            System.out.println(nodo.data + " ");
+            InOrderRec(nodo.right);
+        }
+    }
+
     /*
-    public void isEmpty(){}
-    public T remove(T x){}
     public T search(T x){}
     public void Min(){}
     public void Max(){}
     public void Predecesor(){}
     public void Sucesor(){}
-    public void InOrder(){}
+    
     public void PostOrder(){}
     public void PreOrder(){}
     */
