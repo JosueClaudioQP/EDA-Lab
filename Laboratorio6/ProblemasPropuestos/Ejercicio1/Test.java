@@ -25,8 +25,11 @@ public class Test {
             System.out.println("3. Mostrar Árbol (Preorden)");
             System.out.println("4. Eliminar un nodo");
             System.out.println("5. Encontrar un nodo");
-            System.out.println("6. Destruir árbol");
-            System.out.println("7. Salir");
+            System.out.println("6. Encontrar nodo mínimo");
+            System.out.println("7. Encontrar nodo máximo");
+            System.out.println("8. Encontrar el sucesor de un nodo");
+            System.out.println("9. Destruir árbol");
+            System.out.println("10. Salir");
             System.out.print("Elige una opción: ");
             opcion = sc.nextInt();
 
@@ -51,20 +54,33 @@ public class Test {
                     System.out.println("Nodo eliminado (si existía).");
                     break;
                 case 5:
-                    System.out.println("Ingresar el valor a buscar: ");
+                    System.out.print("Ingresar el valor a buscar: ");
                     int valorIng = sc.nextInt();
                     arbol.search(valorIng);
                     break;
                 case 6:
-                    arbol.destroy();
+                    System.out.print("El nodo mínimo es: ");
+                    arbol.Min();
                     break;
                 case 7:
+                    System.out.print("El nodo máximo es: ");
+                    arbol.Max();
+                    break;
+                case 8:
+                    System.out.print("Ingresa el nodo: ");
+                    int sucess = sc.nextInt();
+                    arbol.Sucesor(sucess);
+                    break;
+                case 9:
+                    arbol.destroy();
+                    break;
+                case 10:
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción inválida.");
             }
-        } while (opcion != 7);
+        } while (opcion != 9);
 
         sc.close();
     }
