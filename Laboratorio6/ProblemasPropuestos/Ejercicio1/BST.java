@@ -133,17 +133,44 @@ public class BST<T extends Comparable<T>> {
         if(actual == null) return null;
         else {
             int resC = actual.data.compareTo(x);
-        if(resC < 0) return searchNode(x, actual.right);
-        else if(resC > 0) return searchNode(x, actual.left);
-        else return actual;
+            if(resC < 0) return searchNode(x, actual.right);
+            else if(resC > 0) return searchNode(x, actual.left);
+            else return actual;
         }
     }
     
-    /*
-    public void Min(){}
-    public void Max(){}
-    public void Predecesor(){}
-    public void Sucesor(){}
-    */
+    public void Min(){
+        System.out.println(searchMin(root));
+    }
+
+    public T searchMin(Nodo<T> nodo){
+        while (nodo.left != null) {
+            nodo = nodo.left;
+        }
+        return nodo.data;
+    }
+
+    public void Max(){
+        System.out.println(searchMax(root));
+    }
+
+    public T searchMax(Nodo<T> nodo){
+        while (nodo.right != null){
+            nodo = nodo.right;
+        }
+        return nodo.data;
+    }
+    
+    public void Predecesor(T x){
+        Nodo<T> pre = searchNode(x, root);
+        x = pre.left.data;
+        System.out.println(x);
+    }
+    
+    public void Sucesor(T x){
+        Nodo<T> sucesor = searchNode(x, root);
+        x = sucesor.right.data;
+        System.out.println(x);
+    }
 }
 
