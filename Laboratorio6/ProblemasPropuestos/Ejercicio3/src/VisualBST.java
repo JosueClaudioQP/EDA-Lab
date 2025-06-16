@@ -4,16 +4,6 @@ import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
 public class VisualBST<T extends Comparable<T>> {
-private class Nodo<E> {
-        E data;
-        Nodo<E> left, right;
-
-        Nodo(E data) {
-            this.data = data;
-            left = right = null;
-        }
-    }
-
     private Nodo<T> root;
 
     public void insert(T value) {
@@ -35,7 +25,7 @@ private class Nodo<E> {
         Graph graph = new SingleGraph("BST");
         graph.setAttribute("ui.stylesheet", "node { fill-color: skyblue; size: 30px; text-size: 16px; }");
         addNodesEdges(graph, root, null);
-        graph.display(false);
+        graph.display();
     }   
 
     private void addNodesEdges(Graph graph, Nodo<T> nodo, T parent) {
