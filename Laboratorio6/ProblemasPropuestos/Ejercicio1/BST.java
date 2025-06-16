@@ -15,7 +15,7 @@ public class BST<T extends Comparable<T>> {
         Nodo<T> nodo = actual;
 
         if(actual == null){
-            System.out.println("Se ingreso numero: " + x);
+            System.out.println("Dato ingresado: " + x);
             nodo = new Nodo<T>(x);
         } else {
             int resC = actual.data.compareTo(x);
