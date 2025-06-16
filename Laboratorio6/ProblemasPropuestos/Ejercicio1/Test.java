@@ -80,7 +80,7 @@ public class Test {
                 default:
                     System.out.println("Opción inválida.");
             }
-        } while (opcion != 9);
+        } while (opcion != 10);
 
         sc.close();
     }
