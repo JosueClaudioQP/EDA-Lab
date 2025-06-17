@@ -154,15 +154,29 @@ public class BST<T extends Comparable<T>> {
     }
     
     public void Predecesor(T x){
-        Nodo<T> pre = searchNode(x, root);
-        x = pre.left.data;
-        System.out.println(x);
+        Nodo<T> nodo = searchNode(x, root);
+        if (nodo != null && nodo.left != null) {
+            Nodo<T> pre = nodo.left;
+            while (pre.right != null) {
+                pre = pre.right;
+            }
+            System.out.println("Predecesor: " + pre.data);
+        } else {
+            System.out.println("No tiene predecesor");
     }
+}
     
     public void Sucesor(T x){
-        Nodo<T> sucesor = searchNode(x, root);
-        x = sucesor.right.data;
-        System.out.println(x);
+        Nodo<T> nodo = searchNode(x, root);
+        if (nodo != null && nodo.right != null) {
+            Nodo<T> suc = nodo.right;
+            while (suc.left != null) {
+                suc = suc.left;
+            }
+            System.out.println("Sucesor: " + suc.data);
+        } else {
+            System.out.println("No tiene sucesor");
+        }
     }
 }
 
