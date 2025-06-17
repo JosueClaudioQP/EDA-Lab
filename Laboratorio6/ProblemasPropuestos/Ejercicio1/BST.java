@@ -43,7 +43,7 @@ public class BST<T extends Comparable<T>> {
     }
 
     public boolean isEmpty(){
-        return root != null;
+        return root == null;
     }
 
     public void remove(T x){
