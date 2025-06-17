@@ -28,8 +28,9 @@ public class Test {
             System.out.println("6. Encontrar nodo mínimo");
             System.out.println("7. Encontrar nodo máximo");
             System.out.println("8. Encontrar el sucesor de un nodo");
-            System.out.println("9. Destruir árbol");
-            System.out.println("10. Salir");
+            System.out.println("9. Encontrar el predecesor de un nodo");
+            System.out.println("10. Destruir árbol");
+            System.out.println("11. Salir");
             System.out.print("Elige una opción: ");
             opcion = sc.nextInt();
 
@@ -72,15 +73,20 @@ public class Test {
                     arbol.Sucesor(sucess);
                     break;
                 case 9:
-                    arbol.destroy();
+                    System.out.print("Ingresa el nodo: ");
+                    int predecesor = sc.nextInt();
+                    arbol.Predecesor(predecesor);
                     break;
                 case 10:
+                    arbol.destroy();
+                    break;
+                case 11:
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción inválida.");
             }
-        } while (opcion != 10);
+        } while (opcion != 11);
 
         sc.close();
     }
