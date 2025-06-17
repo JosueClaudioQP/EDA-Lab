@@ -74,15 +74,20 @@ public class TestASCII {
                     let.Sucesor(sucess.charAt(0));
                     break;
                 case 9:
-                    let.destroy();
+                    System.out.print("Ingresa el nodo: ");
+                    String predecesor = sc.nextLine();
+                    let.Sucesor(predecesor.charAt(0));
                     break;
                 case 10:
+                    let.destroy();
+                    break;
+                case 11:
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción inválida.");
             }
-        } while (opcion != 10);
+        } while (opcion != 11);
 
 
         sc.close();
