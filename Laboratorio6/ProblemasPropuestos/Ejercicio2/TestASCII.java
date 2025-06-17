@@ -28,8 +28,9 @@ public class TestASCII {
             System.out.println("6. Encontrar nodo mínimo");
             System.out.println("7. Encontrar nodo máximo");
             System.out.println("8. Encontrar el sucesor de un nodo");
-            System.out.println("9. Destruir árbol");
-            System.out.println("10. Salir");
+            System.out.println("9. Encontrar el predecesor de un nodo");
+            System.out.println("10. Destruir árbol");
+            System.out.println("11. Salir");
             System.out.print("Elige una opción: ");
             opcion = sc.nextInt();
             sc.nextLine();
@@ -76,7 +77,7 @@ public class TestASCII {
                 case 9:
                     System.out.print("Ingresa el nodo: ");
                     String predecesor = sc.nextLine();
-                    let.Sucesor(predecesor.charAt(0));
+                    let.Predecesor(predecesor.charAt(0));
                     break;
                 case 10:
                     let.destroy();
