@@ -39,15 +39,7 @@ public class BST<T extends Comparable<T>> {
     }
 
     protected void destroyTree(Nodo<T> nodo){
-        if(nodo == null) return;
-
-        destroyTree(nodo.right);
-        destroyTree(nodo.left);
-
-        nodo.right = null;
-        nodo.left = null;
-        nodo.data = null;
-
+        this.root = null;
     }
 
     public boolean isEmpty(){
