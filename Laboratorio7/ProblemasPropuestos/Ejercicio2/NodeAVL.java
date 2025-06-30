@@ -1,10 +1,10 @@
 package ProblemasPropuestos.Ejercicio2;
 
 public class NodeAVL<T> {
-    T data;
-    NodeAVL<T> left;
-    NodeAVL<T> right;
-    int height;
+    public T data;
+    public NodeAVL<T> left;
+    public NodeAVL<T> right;
+    public int height;
 
     public NodeAVL(T data){
         this.data = data;

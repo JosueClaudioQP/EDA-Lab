@@ -1,6 +1,8 @@
 package ProblemasPropuestos.Ejercicio2;
 import java.util.Scanner;
 
+import ProblemasPropuestos.Ejercicio3.VisualizarAVL;
+
 public class Test {
     public static void main(String[] args) {
         AVLTree<Integer> tree = new AVLTree<>();
@@ -23,6 +25,7 @@ public class Test {
             System.out.println("8. Recorrido PostOrder");
             System.out.println("9. Vaciar árbol");
             System.out.println("10. ¿Está vacío?");
+            System.out.println("11. Visualizar árbol (Swing)");
             System.out.println("0. Salir");
             System.out.print("Opción: ");
             opc = sc.nextInt();
@@ -65,6 +68,9 @@ public class Test {
                     break;
                 case 10:
                     System.out.println(tree.isEmpty() ? "Árbol vacío" : "Árbol no vacío");
+                    break;
+                case 11:
+                    VisualizarAVL.mostrar(tree);
                     break;
             }
         } while (opc != 0);

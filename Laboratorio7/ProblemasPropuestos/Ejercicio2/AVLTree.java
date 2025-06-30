@@ -3,6 +3,10 @@ package ProblemasPropuestos.Ejercicio2;
 public class AVLTree<T extends Comparable<T>> {
     private NodeAVL<T> root;
 
+    public NodeAVL<T> getRoot() {
+        return root;
+    }
+
     public void destroy() {
         root = null;
     }
