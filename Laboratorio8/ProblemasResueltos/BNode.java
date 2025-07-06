@@ -6,22 +6,30 @@ public class BNode<E extends Comparable<E>> {
     public ArrayList<E> keys;           // m‑1 claves como máximo
     public ArrayList<BNode<E>> childs;  // m hijos
     public int count;                   // nº de claves ocupadas
+    private final int order;               // orden del nodo
 
     public BNode(int order) {
-        keys   = new ArrayList<>(order);
+        this.order = order;
+        keys = new ArrayList<>(order - 1);
         childs = new ArrayList<>(order);
-        count  = 0;
-        for (int i = 0; i < order; i++) {
+        count = 0;
+        
+        // Inicializar keys con order - 1 elementos (máximo de claves)
+        for (int i = 0; i < order - 1; i++) {
             keys.add(null);
+        }
+        
+        // Inicializar childs con order elementos (máximo de hijos)
+        for (int i = 0; i < order; i++) {
             childs.add(null);
         }
     }
 
-    // devuelve true si el nodo está lleno (tiene m‑1 claves)
+    /** true si el nodo está lleno (tiene m‑1 claves). */
     public boolean nodeFull() {
-        return count == keys.size() - 1;
+        return count == order - 1;
     }
-
+    
     public boolean searchNode(E k, int[] pos) {
         int lo = 0, hi = count - 1;
         while (lo <= hi) {
@@ -32,6 +40,10 @@ public class BNode<E extends Comparable<E>> {
         }
         pos[0] = lo;      // hijo a descender
         return false;
+    }
+
+    public boolean isLeaf() {
+        return childs.get(0) == null;
     }
 
     @Override
