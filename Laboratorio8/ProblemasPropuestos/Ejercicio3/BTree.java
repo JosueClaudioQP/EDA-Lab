@@ -44,6 +44,19 @@ public class BTree<T extends Comparable<T>> {
             insertNonFull(r, k);
         }
     }
+    
+    public void remove(T k) {
+        if (isEmpty()) {
+            System.out.println("El árbol está vacío. No se puede eliminar.");
+            return;
+        }
+        remove(root, k);
+
+        // Si la raíz queda sin claves y no es una hoja, se reduce la altura del árbol
+        if (root.n == 0 && !root.isLeaf) {
+            root = root.children.get(0);
+        }
+    }
 
     public T getMin() {
         if (isEmpty()) return null;
@@ -53,6 +66,66 @@ public class BTree<T extends Comparable<T>> {
     public T getMax() {
         if (isEmpty()) return null;
         return getMax(root);
+    }
+
+    public T predecessor(T k) {
+        // Implementación simplificada: encuentra el valor y luego su predecesor interno.
+        // Una implementación completa requiere búsqueda y seguimiento del "mejor candidato".
+        BTreeNode<T> node = search(root,k);
+        if (node != null){
+            int index = node.findKey(k);
+            if (!node.isLeaf) {
+                return getMax(node.children.get(index));
+            }
+            // Si es hoja y no es el primer elemento, el predecesor está en el mismo nodo.
+            if(index > 0) return node.keys.get(index - 1);
+        }
+        // Lógica más compleja para encontrarlo en ancestros no está implementada aquí por simplicidad.
+        return null;
+    }
+
+    public T successor(T k) {
+        BTreeNode<T> node = search(root,k);
+        if (node != null){
+            int index = node.findKey(k);
+            if (!node.isLeaf) {
+                return getMin(node.children.get(index + 1));
+            }
+             // Si es hoja y no es el último elemento, el sucesor está en el mismo nodo.
+            if(index < node.n -1) return node.keys.get(index + 1);
+        }
+        // Lógica más compleja para encontrarlo en ancestros no está implementada aquí por simplicidad.
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) {
+            return "Arbol Vacio";
+        }
+        StringBuilder sb = new StringBuilder();
+        Queue<BTreeNode<T>> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                BTreeNode<T> node = queue.poll();
+                sb.append(node.keys).append(" ");
+                if (!node.isLeaf) {
+                    queue.addAll(node.children);
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public void writeTree() {
+        if (isEmpty()) {
+            System.out.println("El árbol está vacío.");
+            return;
+        }
+        writeTreeRecursive(root, "", true);
     }
 
     private BTreeNode<T> search(BTreeNode<T> x, T k) {
@@ -126,6 +199,140 @@ public class BTree<T extends Comparable<T>> {
             insertNonFull(x.children.get(i), k);
         }
     }
+    
+    private void remove(BTreeNode<T> x, T k) {
+        int idx = x.findKey(k);
+
+        // Caso 1: La clave k está en el nodo x
+        if (idx < x.n && x.keys.get(idx).compareTo(k) == 0) {
+            if (x.isLeaf) { // 1a: Si es una hoja, simplemente se quita
+                x.keys.remove(idx);
+                x.n--;
+            } else { // 1b: Si es un nodo interno
+                removeFromNonLeaf(x, idx);
+            }
+        } else { // Caso 2: La clave no está en x, está en un subárbol
+            if (x.isLeaf) { // Si es una hoja, la clave no está en el árbol
+                System.out.println("La clave " + k + " no existe en el árbol.");
+                return;
+            }
+
+            // El hijo donde debería estar la clave es x.children.get(idx)
+            boolean isLastChild = (idx == x.n);
+            BTreeNode<T> child = x.children.get(idx);
+
+            // Si el hijo tiene el mínimo de claves, hay que enriquecerlo antes de bajar
+            if (child.n < t) {
+                fill(x, idx);
+            }
+
+            // Después de 'fill', el hijo podría haber cambiado (si hubo fusión)
+            if (isLastChild && idx > x.n) {
+                remove(x.children.get(idx - 1), k);
+            } else {
+                remove(x.children.get(idx), k);
+            }
+        }
+    }
+    
+    private void removeFromNonLeaf(BTreeNode<T> x, int idx) {
+        T k = x.keys.get(idx);
+        BTreeNode<T> predChild = x.children.get(idx);
+        BTreeNode<T> succChild = x.children.get(idx + 1);
+
+        // 2a: Si el hijo izquierdo (predecesor) tiene al menos t claves
+        if (predChild.n >= t) {
+            T pred = getMax(predChild);
+            x.keys.set(idx, pred);
+            remove(predChild, pred);
+        }
+        // 2b: Si el hijo derecho (sucesor) tiene al menos t claves
+        else if (succChild.n >= t) {
+            T succ = getMin(succChild);
+            x.keys.set(idx, succ);
+            remove(succChild, succ);
+        }
+        // 2c: Si ambos hijos tienen t-1 claves, se fusionan
+        else {
+            fuzeNode(x, idx);
+            remove(predChild, k);
+        }
+    }
+    
+    private void fill(BTreeNode<T> x, int idx) {
+        // Intenta tomar prestado del hermano izquierdo
+        if (idx != 0 && x.children.get(idx - 1).n >= t) {
+            borrowFromPrev(x, idx);
+        } 
+        // Intenta tomar prestado del hermano derecho
+        else if (idx != x.n && x.children.get(idx + 1).n >= t) {
+            borrowFromNext(x, idx);
+        }
+        // Si no se puede tomar prestado, fusionar
+        else {
+            if (idx != x.n) {
+                fuzeNode(x, idx); // Fusionar con el hermano derecho
+            } else {
+                fuzeNode(x, idx - 1); // Fusionar con el hermano izquierdo
+            }
+        }
+    }
+
+    private void borrowFromPrev(BTreeNode<T> x, int idx) {
+        BTreeNode<T> child = x.children.get(idx);
+        BTreeNode<T> sibling = x.children.get(idx - 1);
+
+        // Mover clave de x a child
+        child.keys.add(0, x.keys.get(idx - 1));
+        // Mover clave del hermano a x
+        x.keys.set(idx - 1, sibling.keys.get(sibling.n - 1));
+
+        // Mover hijo si es necesario
+        if (!sibling.isLeaf) {
+            child.children.add(0, sibling.children.get(sibling.n));
+            sibling.children.remove(sibling.n);
+        }
+        
+        sibling.keys.remove(sibling.n - 1);
+        child.n++;
+        sibling.n--;
+    }
+    
+    private void borrowFromNext(BTreeNode<T> x, int idx) {
+        BTreeNode<T> child = x.children.get(idx);
+        BTreeNode<T> sibling = x.children.get(idx + 1);
+
+        child.keys.add(x.keys.get(idx));
+        x.keys.set(idx, sibling.keys.get(0));
+
+        if (!sibling.isLeaf) {
+            child.children.add(sibling.children.get(0));
+            sibling.children.remove(0);
+        }
+
+        sibling.keys.remove(0);
+        child.n++;
+        sibling.n--;
+    }
+
+    private void fuzeNode(BTreeNode<T> x, int idx) {
+        BTreeNode<T> child = x.children.get(idx);
+        BTreeNode<T> sibling = x.children.get(idx + 1);
+
+        // Bajar clave de x al final de 'child'
+        child.keys.add(x.keys.get(idx));
+
+        // Copiar claves y hijos de 'sibling' a 'child'
+        child.keys.addAll(sibling.keys);
+        if (!child.isLeaf) {
+            child.children.addAll(sibling.children);
+        }
+
+        // Actualizar contadores y eliminar de x la clave y el hijo fusionados
+        x.keys.remove(idx);
+        x.children.remove(idx + 1);
+        child.n += sibling.n + 1;
+    }
 
     private T getMin(BTreeNode<T> x) {
         while (!x.isLeaf) {
@@ -139,5 +346,15 @@ public class BTree<T extends Comparable<T>> {
             x = x.children.get(x.n);
         }
         return x.keys.get(x.n - 1);
+    }
+
+    private void writeTreeRecursive(BTreeNode<T> node, String prefix, boolean isTail) {
+        System.out.println(prefix + (isTail ? "└── " : "├── ") + node.keys);
+        if (!node.isLeaf) {
+            for (int i = 0; i < node.n; i++) {
+                writeTreeRecursive(node.children.get(i), prefix + (isTail ? "    " : "│   "), false);
+            }
+            writeTreeRecursive(node.children.get(node.n), prefix + (isTail ? "    " : "│   "), true);
+        }
     }
 }
