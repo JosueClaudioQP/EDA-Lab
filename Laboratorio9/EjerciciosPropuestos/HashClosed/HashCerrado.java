@@ -13,4 +13,17 @@ public class HashCerrado<K, V> {
             this.eliminado = false;
         }
     }
+
+    private int capacidad;
+    private Entrada<K, V>[] tabla;
+
+    @SuppressWarnings("unchecked")
+    public HashCerrado(int capacidad) {
+        this.capacidad = capacidad;
+        tabla = new Entrada[capacidad];
+    }
+
+    private int hash(K clave) {
+        return (int)clave % capacidad;
+    }
 }
